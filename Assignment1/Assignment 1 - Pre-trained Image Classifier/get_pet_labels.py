@@ -47,25 +47,31 @@ def get_pet_labels(image_dir):
     results_dic = dict()
     
     for idx in range(0, len(filename_list), 1):
-        low_pet_image = filename_list[idx].lower()
         
-        word_list_pet_image = low_pet_image.split("_")
+        if filename_list[idx][0] != ".":
         
-        pet_name = ""
+            # convert the filename to lower case
+            # for filenames without any words separated by '_' splitting by '.'
+            # e.g. Podle.jpg should result in 'podle'
+            low_pet_image = (filename_list[idx].lower()).split(".")[0]
+            
+            word_list_pet_image = low_pet_image.split("_")
         
-        for word in word_list_pet_image:
-            if word.isalpha():
-                pet_name += word + " "
+            pet_name = ""
         
-        pet_name = pet_name.strip()
-        print("Generated Label: " + pet_name)
+            for word in word_list_pet_image:
+                if word.isalpha():
+                    pet_name += word + " "
+        
+            pet_name = pet_name.strip()
+            print("Generated Label: " + pet_name)
     
-        if filename_list[idx] not in results_dic:
-            results_dic[filename_list[idx]] = [pet_name]
-            #print("Added to dictionary: " + results_dic[filename_list[idx]]) 
-        else:
-            print("** Warning: Key=", filename_list[idx], 
-                "already exists in results_dic with value =", 
+            if filename_list[idx] not in results_dic:
+                results_dic[filename_list[idx]] = [pet_name]
+                #print("Added to dictionary: " + results_dic[filename_list[idx]]) 
+            else:
+                print("** Warning: Key=", filename_list[idx], 
+                    "already exists in results_dic with value =", 
                 results_dic[filename_list[idx]])
 
     
